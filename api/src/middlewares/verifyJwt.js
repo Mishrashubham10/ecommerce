@@ -11,9 +11,15 @@ export const verifyJwt = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    req.user = await User.findById(decoded.id).select('-password');
+    const user = await User.findById(decodedToken.id).select('-password');
+
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = user;
     if (!req.user) {
       return res.status(401).json({ message: 'User not found' });
     }
@@ -25,10 +31,11 @@ export const verifyJwt = async (req, res, next) => {
 };
 
 // ============= ADMIN CHECKING ============
-export async function isAdmin(req, res, next) {
-  if (req.user || req.user?.role === 'admin') {
+export const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Forbidden: Access denied' });
+    }
     next();
-  } else {
-    res.status(403).json({ message: 'Access denied. Admin only.' });
-  }
-}
+  };
+};

@@ -54,61 +54,58 @@ export const register = async (req, res) => {
 // @route POST /auth/login
 // @access Public
 export const login = async (req, res) => {
-  // DATA FROM USER
   const { email, password } = req.body;
 
-  // REQUIRED CHECKING
   try {
     if (!email || !password) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // FIND USER WITH EMAIL OR USERNAME
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // CONFIRM PASSWORDS
-    const isMatchPsw = await bcrypt.compare(user.password, password);
+    // ✅ Corrected password compare
+    const isMatchPsw = await bcrypt.compare(password, user.password);
 
     if (!isMatchPsw) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // GENERATE ACCESS TOKEN
+    // ✅ Generate tokens
     const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
+      { id: user._id, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: '30d',
-      }
+      { expiresIn: '30d' }
     );
 
-    // GENERATE REFRESH TOKEN
     const refreshToken = jwt.sign(
       { email: user.email },
       process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: '30d',
-      }
+      { expiresIn: '30d' }
     );
 
-    // Create secure cookie with refresh token
     res.cookie('jwt', refreshToken, {
-      httpOnly: true, //accessible only by web server
-      secure: true, //https,
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+      httpOnly: true,
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // Send accessToken containing username and roles
-    res.json({ accessToken });
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message || 'Error while loggin user' });
+    res
+      .status(500)
+      .json({ error: err.message || 'Error while logging in user' });
   }
 };
 
@@ -129,7 +126,7 @@ export const refresh = (req, res) => {
       if (err) return res.status(403).json({ message: 'Forbidden' });
 
       const foundUser = await User.findOne({
-        username: decoded.username,
+        email: decoded.email,
       }).exec();
 
       if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
@@ -137,8 +134,8 @@ export const refresh = (req, res) => {
       const accessToken = jwt.sign(
         {
           UserInfo: {
-            username: foundUser.username,
-            roles: foundUser.role,
+            email: foundUser.email,
+            role: foundUser.role,
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
