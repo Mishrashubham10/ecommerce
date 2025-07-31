@@ -6,6 +6,7 @@ dotenv.config();
 
 // ROUTES IMPORTS
 import authRoutes from "./routes/auth.routes.js";
+import usersRoute from "./routes/user.routes.js";
 
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -15,8 +16,10 @@ app.use(cookieParse());
 app.use(express.static('public'));
 app.use(express.json({ limit: '10kb' }));
 
-// ROUTES
-app.use("/api/v1/auth", authRoutes)
+// AUTH ROUTES
+app.use("/api/v1/auth", authRoutes);
+// USER ROUTES
+app.use("/api/v1/users", usersRoute)
 
 connectDb().then(() => {
   app.listen(PORT, () => {

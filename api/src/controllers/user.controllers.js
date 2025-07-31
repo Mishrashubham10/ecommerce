@@ -1,52 +1,68 @@
 import mongoose from 'mongoose';
 import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
+import { Address } from '../models/Address.js';
 
 // CREATE USER
 export const createUser = async (req, res) => {
   try {
-    const { email, username, password, role } = req.body;
-    console.log('role -----------', role);
+    const {
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+      phone,
+      role,
+      addresses,
+    } = req.body;
 
-    // 1. Field Validation
-    if (!email || !username || !password) {
-      return res.status(400).json({ message: 'All fields are required *' });
+    // Ensure only admin can call this
+    if (req.user?.role !== 'Admin') {
+      return res.status(403).json({ message: 'Only Admins can create users' });
     }
 
-    // 2. Role Validation
+    if (!email || !username || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Email, username and password are required' });
+    }
+
     const allowedRoles = ['Customer', 'Admin', 'Seller'];
     const isRoleValid = allowedRoles.includes(role);
     const assignedRole = isRoleValid ? role : 'Customer';
 
-    // 3. Check for duplicate user
-    const duplicate = await User.findOne({
-      $or: [{ email }, { username }],
-    });
-    if (duplicate) {
-      return res
-        .status(409)
-        .json({ error: 'User already exists with this email or username' });
+    const existing = await User.findOne({ $or: [{ email }, { username }] });
+    if (existing) {
+      return res.status(409).json({ error: 'User already exists' });
     }
 
-    // 4. Hash password
     const hashedPwd = await bcrypt.hash(password, 10);
 
-    // 5. Create user object
-    const userObj = {
+    const user = new User({
       email,
       username,
       password: hashedPwd,
       role: assignedRole,
-    };
+      firstName,
+      lastName,
+      phone,
+    });
 
-    const user = await User.create(userObj);
+    if (addresses?.length) {
+      const addressDocs = await Address.insertMany(
+        addresses.map((add) => ({ ...add, user: user._id }))
+      );
+      user.addresses = addressDocs.map((add) => add._id);
+    }
 
-    // 6. Success Response
+    await user.save();
+
     res
       .status(201)
-      .json({ message: `User with username ${user.username} created` });
+      .json({ message: `User '${user.username}' created successfully.` });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || 'Failed to create user' });
   }
 };
 
@@ -198,7 +214,7 @@ export const updateUser = async (req, res) => {
 // DELETE USER
 export const deleteUser = async (req, res) => {
   // GET THE ID OF THE USER BY REQ.PARAMS.ID
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
     // ID CHECKING IF ITS VALID OR NOT

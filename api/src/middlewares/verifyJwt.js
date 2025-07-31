@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/User.js';
 
 export const verifyJwt = async (req, res, next) => {
-  const authHeader = req.headers?.authorization;
+  const authHeader = req.headers?.authorization || req.headers?.Authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!authHeader || !authHeader.startsWith('Bearer')) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 
@@ -15,14 +15,11 @@ export const verifyJwt = async (req, res, next) => {
 
     const user = await User.findById(decodedToken.id).select('-password');
 
-    if (!req.user) {
+    if (!user) {
       return res.status(401).json({ message: 'User not found' });
     }
 
     req.user = user;
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not found' });
-    }
 
     next();
   } catch (err) {

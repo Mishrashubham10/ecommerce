@@ -1,4 +1,4 @@
-import Router from 'express';
+import { Router } from 'express';
 import {
   createUser,
   deleteUser,
@@ -6,27 +6,19 @@ import {
   getUsers,
   updateUser,
 } from '../controllers/user.controllers.js';
-import { verifyJwt } from '../middlewares/verifyJwt.js';
-import { authorizeUser } from '../utils/authorizeUser.js';
+import { authorizeRoles, verifyJwt } from '../middlewares/verifyJwt.js';
 
 const router = Router();
 
-// Allow only Admin to view all users
-router.get('/', verifyJwt, authorizeUser(['Admin']), getUsers);
-
-// Allow Admin to create a new user
-router.post('/', verifyJwt, authorizeUser(['Admin']), createUser);
-
-// Allow all authenticated users to get their own user info
-router.post(
-  '/:id',
-  verifyJwt,
-  authorizeUser(['Admin', 'Customer', 'Seller']),
-  getUser
-);
-
-// Only Admin can update or delete users
-router.put('/:id', verifyJwt, authorizeUser(['Admin']), updateUser);
-router.delete('/:id', verifyJwt, authorizeUser(['Admin']), deleteUser);
+// CREATE USER
+router.post('/admin/create', verifyJwt, authorizeRoles('Admin'), createUser);
+// GET USERS
+router.get('/admin', verifyJwt, authorizeRoles('Admin'), getUsers);
+// GET A SINGLE USER
+router.get('/:id', verifyJwt, getUser);
+// UPDATE USER
+router.put('/admin/:id', verifyJwt, authorizeRoles('Admin'), updateUser);
+// DELETE USER
+router.delete('/admin/:id', verifyJwt, authorizeRoles('Admin'), deleteUser);
 
 export default router;
