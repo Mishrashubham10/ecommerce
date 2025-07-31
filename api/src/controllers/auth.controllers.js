@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 export const register = async (req, res) => {
   try {
     // GETTING THE DATA FROM THE USER
-    const { email, password, username } = req.body;
+    const { email, password, username, role } = req.body;
 
     // AUTHENTICATION CHECK FOR EMPTY FIELDS
     if (!email || !password || !username) {
@@ -31,17 +31,25 @@ export const register = async (req, res) => {
     const hashedPwd = await bcrypt.hash(password, 10);
     console.log('Hashed Pwd', hashedPwd);
 
+    // ROLE CHECKING
+    let assignedRole = 'Customer';
+
+    if (role === 'Admin' && role) {
+      assignedRole = role;
+    }
+
     // CREATE A NEW USER
     const user = {
       username,
       email,
       password: hashedPwd,
+      role: assignedRole,
     };
 
     const newUser = await User.create(user);
 
     res.status(201).json({
-      message: `User created ${newUser.username} successfully`,
+      message: `User registered ${newUser.username} successfully`,
     });
   } catch (err) {
     res
