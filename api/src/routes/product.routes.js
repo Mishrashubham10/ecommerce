@@ -4,7 +4,7 @@ import {
   deleteProduct,
   getProduct,
   getProducts,
-  sellerProducts,
+  seller,
   updateProduct,
 } from '../controllers/product.controllers.js';
 import { authorizeRoles, verifyJwt } from '../middlewares/verifyJwt.js';
@@ -13,17 +13,17 @@ const router = Router();
 
 // PUBLIC ROUTES
 router.get('/', getProducts);
+// THIS IS TO GET PRODUCTS BY SELLER PRIVATE ROUTE
+router.get(
+  '/seller-products',
+  verifyJwt,
+  authorizeRoles('Seller', 'Admin'),
+  seller
+);
 router.get('/:id', getProduct);
 
 // PRIVATE ROUTES
 router.post('/', verifyJwt, authorizeRoles('Admin', 'Seller'), createProduct);
-// THIS IS TO GET PRODUCTS BY SELLER
-router.get(
-  '/my-products',
-  verifyJwt,
-  authorizeRoles('Seller'),
-  sellerProducts
-);
 router.put(
   '/:id',
   verifyJwt,

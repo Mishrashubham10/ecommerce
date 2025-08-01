@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User.js';
 
+// JSON WEB TOKEN FOR VERIFYING USER
 export const verifyJwt = async (req, res, next) => {
   const authHeader = req.headers?.authorization || req.headers?.Authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 
@@ -20,6 +21,8 @@ export const verifyJwt = async (req, res, next) => {
     }
 
     req.user = user;
+    req.user.id = user._id;
+    req.user.role = user.role;
 
     next();
   } catch (err) {
