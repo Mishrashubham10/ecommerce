@@ -6,15 +6,15 @@ import jwt from 'jsonwebtoken';
 // @route POST /auth/register
 // @access Public
 export const register = async (req, res) => {
+  // GETTING THE DATA FROM THE USER
+  const { email, password, username, role } = req.body;
+
+  // AUTHENTICATION CHECK FOR EMPTY FIELDS
+  if (!email || !password || !username) {
+    return res.status(400).json({ message: 'All fields are required *' });
+  }
+
   try {
-    // GETTING THE DATA FROM THE USER
-    const { email, password, username, role } = req.body;
-
-    // AUTHENTICATION CHECK FOR EMPTY FIELDS
-    if (!email || !password || !username) {
-      return res.status(400).json({ message: 'All fields are required *' });
-    }
-
     // NOW CHECK IF THE USER ALREADY AXISTS
     const existingUser = await User.findOne({
       $or: [{ username }, { email }],

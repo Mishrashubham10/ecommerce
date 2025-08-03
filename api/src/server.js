@@ -8,7 +8,8 @@ dotenv.config();
 import authRoutes from './routes/auth.routes.js';
 import usersRoute from './routes/user.routes.js';
 import productsRoute from './routes/product.routes.js';
-import auditsRoute from "./routes/audits-routes.js";
+import auditsRoute from './routes/audits-routes.js';
+import analyticsRoute from "./routes/analytic-routes.js";
 
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -25,7 +26,9 @@ app.use('/api/v1/users', usersRoute);
 // PRODUCT ROUTES
 app.use('/api/v1/products', productsRoute);
 // AUDITS ROUTES
-app.use('/api/audits', auditsRoute)
+app.use('/api/audits', auditsRoute);
+// ANALYTIC ROUTE
+app.use('/api/v1/analytics', analyticsRoute);
 
 connectDb().then(() => {
   app.listen(PORT, () => {

@@ -10,4 +10,8 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// INDEXING
+reviewSchema.index({ user: 1 });
+reviewSchema.index({ product: 1 });
+
 export const Review = mongoose.model('Review', reviewSchema);

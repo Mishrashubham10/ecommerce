@@ -14,4 +14,7 @@ const addressSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// INDEXING
+addressSchema.index({ user: 1 });
+
 export const Address = mongoose.model('Address', addressSchema);

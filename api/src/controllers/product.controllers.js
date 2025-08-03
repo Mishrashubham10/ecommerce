@@ -118,7 +118,9 @@ export const getProduct = async (req, res) => {
 
   // ID VALIDATION
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(401).json({ message: 'Id required THIS IS WHERE THE ERROR IS COMING FROM' });
+    return res
+      .status(401)
+      .json({ message: 'Id required THIS IS WHERE THE ERROR IS COMING FROM' });
   }
   try {
     // FIND THE PRODUCT WITH ATTACHED ID
@@ -244,5 +246,23 @@ export const deleteProduct = async (req, res) => {
 // @route GET /:ID
 // @access PRIVATE
 export const seller = async (req, res) => {
-  res.status(200).json({ message: 'yee got all the products' })
+  const userId = req.user?._id;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User must be logged in' });
+  }
+
+  try {
+    const products = await Product.find({ createdBy: userId })
+      .populate('category')
+      .lean();
+
+    if (!products.length) {
+      return res.status(404).json({ message: 'No product found!' });
+    }
+
+    res.status(200).json({ count: products.length, products });
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Server Error' });
+  }
 };
