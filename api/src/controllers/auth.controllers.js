@@ -29,7 +29,6 @@ export const register = async (req, res) => {
 
     // HASH PASSWORD
     const hashedPwd = await bcrypt.hash(password, 10);
-    console.log('Hashed Pwd', hashedPwd);
 
     // ROLE CHECKING
     let assignedRole = 'Customer';

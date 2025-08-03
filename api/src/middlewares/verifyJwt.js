@@ -10,7 +10,7 @@ export const verifyJwt = async (req, res, next) => {
       return res.status(401).json({ message: 'Not authorized, no token' });
     }
 
-    const token = authHeader.split(' ')[1];
+    let token = authHeader.split(' ')[1];
     console.log('✅ Token received:', token);
 
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -27,6 +27,8 @@ export const verifyJwt = async (req, res, next) => {
       role: user.role,
       name: user.name,
     };
+
+    console.log("Yee got the user", req.user);
 
     next();
   } catch (err) {

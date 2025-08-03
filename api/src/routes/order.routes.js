@@ -1,18 +1,20 @@
-import Router from 'express';
+import { Router } from 'express';
 import {
-  createOrder,
-  deleteOrder,
-  getOrder,
   getOrders,
+  getOrder,
+  createOrder,
   updateOrder,
-} from '../controllers/order.controllers';
+  deleteOrder,
+} from '../controllers/order.controllers.js';
+import { authorizeRoles, verifyJwt } from '../middlewares/verifyJwt.js';
 
 const router = Router();
 
-router.get('/', getOrders);
-router.post('/', createOrder);
-router.post('/:id', getOrder);
-router.put('/:id', updateOrder);
-router.delete('/:id', deleteOrder);
+// ROUTES & CONTROLLERS
+router.get('/', verifyJwt, authorizeRoles('Admin'), getOrders);
+router.post('/', verifyJwt, createOrder);
+router.post('/:id', verifyJwt, getOrder);
+router.put('/:id', verifyJwt, updateOrder);
+router.delete('/:id', verifyJwt, deleteOrder);
 
 export default router;

@@ -10,6 +10,7 @@ import usersRoute from './routes/user.routes.js';
 import productsRoute from './routes/product.routes.js';
 import auditsRoute from './routes/audits-routes.js';
 import analyticsRoute from "./routes/analytic-routes.js";
+import ordersRoute from "./routes/order.routes.js";
 
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -29,6 +30,8 @@ app.use('/api/v1/products', productsRoute);
 app.use('/api/audits', auditsRoute);
 // ANALYTIC ROUTE
 app.use('/api/v1/analytics', analyticsRoute);
+// ORDER ROUTE
+app.use('/api/v1/orders', ordersRoute)
 
 connectDb().then(() => {
   app.listen(PORT, () => {

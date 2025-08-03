@@ -31,8 +31,8 @@ router.get(
   authorizeRoles('Admin'),
   getMonthlySales
 );
-router.get('/top-products', verifyJwt, authorizeRoles('Admin'), getTopProducts);
-router.get('/top-users', verifyJwt, authorizeRoles('Admin'), getTopUsers);
+// router.get('/top-products', verifyJwt, authorizeRoles('Admin'), getTopProducts);
+// router.get('/top-users', verifyJwt, authorizeRoles('Admin'), getTopUsers);
 router.get(
   '/orders-by-category',
   verifyJwt,
