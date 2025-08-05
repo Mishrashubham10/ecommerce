@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import {
   createUser,
-  deleteUser,
+  getCurrentUser,
   getUser,
   getUsers,
+  deleteUser,
   updateUser,
 } from '../controllers/user.controllers.js';
 import { authorizeRoles, verifyJwt } from '../middlewares/verifyJwt.js';
@@ -12,6 +13,8 @@ const router = Router();
 
 // CREATE USER
 router.post('/admin/create', verifyJwt, authorizeRoles('Admin'), createUser);
+// GET CURRENT USER
+router.get('/me', verifyJwt, getCurrentUser);
 // GET USERS
 router.get('/admin', verifyJwt, authorizeRoles('Admin'), getUsers);
 // GET A SINGLE USER
