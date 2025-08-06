@@ -2,6 +2,8 @@ import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+const isEmpty = (value) => !value || value.trim() === "";
+
 // @desc Register
 // @route POST /auth/register
 // @access Public
@@ -10,7 +12,7 @@ export const register = async (req, res) => {
   const { email, password, username, role } = req.body;
 
   // AUTHENTICATION CHECK FOR EMPTY FIELDS
-  if (!email || !password || !username) {
+  if (isEmpty(email) || isEmpty(password) || isEmpty(username)) {
     return res.status(400).json({ message: 'All fields are required *' });
   }
 
@@ -57,6 +59,59 @@ export const register = async (req, res) => {
   }
 };
 
+// @desc REGISTER SELLER
+// @route POST /auth/register/seller
+// @access PRIVATE - ONLY FOR SELLER
+export const registerSeller = async (req, res) => {
+  const { businessName, email, password, confirmPassword, gstin } = req.body;
+
+  if (
+    isEmpty(businessName) ||
+    isEmpty(email) ||
+    isEmpty(password) ||
+    isEmpty(confirmPassword) ||
+    isEmpty(gstin)
+  ) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: 'Password must be at least 6 characters' });
+  }
+
+  const gstRegex = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}$/i;
+  if (!gstRegex.test(gstin)) {
+    return res.status(400).json({ error: 'Invalid GSTIN format' });
+  }
+
+  try {
+    const existing = await User.findOne({ email });
+    if (existing)
+      return res.status(409).json({ error: 'Email already in use' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      businessName,
+      email,
+      password: hashedPassword,
+      gstin,
+      role: 'Seller',
+    });
+
+    await user.save();
+    res.status(201).json({ message: 'Seller registered successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Server Error' });
+  }
+};
+
 /// @desc Login
 // @route POST /auth/login
 // @access Public
@@ -64,7 +119,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    if (!email || !password) {
+    if (isEmpty(email) || isEmpty(password)) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 

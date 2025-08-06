@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   // HANDLING INPUTS
@@ -31,6 +33,14 @@ export default function LoginPage() {
       } else {
         const data = await res.json();
         console.log('Login successful:', data);
+
+        if (data?.user?.role === 'Customer') {
+          router.push('/customer/dashboard');
+        } else if (data?.user?.role === 'Seller') {
+          router.push('/seller/dashboard');
+        } else {
+          router.push('/admin/dashboard');
+        }
       }
     } catch (err) {
       console.log(err.message || 'Error while logging user!');
@@ -85,10 +95,16 @@ export default function LoginPage() {
 
           {/* ======== BUTTON ======== */}
           <div className="flex flex-col w-[100%] items-center justify-center p-4">
-            <p className='text-xs mb-[3px]'>
-            By continuing, you agree to Flipkart's <a className='text-blue-400' href="#">Terms of Use </a>
-            and <a className='text-blue-400' href="#">Privacy Policy.</a>
-          </p>
+            <p className="text-xs mb-[3px]">
+              By continuing, you agree to Flipkart's{' '}
+              <a className="text-blue-400" href="#">
+                Terms of Use{' '}
+              </a>
+              and{' '}
+              <a className="text-blue-400" href="#">
+                Privacy Policy.
+              </a>
+            </p>
             <button className="w-[100%] bg-[#FB641B] py-1.5 px-5 rounded-md shadow-md">
               Login
             </button>

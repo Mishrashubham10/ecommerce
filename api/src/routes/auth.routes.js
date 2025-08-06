@@ -4,11 +4,14 @@ import {
   logout,
   refresh,
   register,
+  registerSeller,
 } from '../controllers/auth.controllers.js';
 
 const router = Router();
 
-router.post('/register', register);
+router.post('/customer/register', register);
+router.post('/seller/register', registerSeller);
+router.post('/customer/register', register);
 router.post('/login', login);
 router.get('/refresh', refresh);
 router.post('/logout', logout);

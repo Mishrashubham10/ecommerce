@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function SignupPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -36,7 +38,7 @@ export default function SignupPage() {
     }
 
     try {
-      const res = await fetch('http://localhost:5500/api/v1/auth/register', {
+      const res = await fetch('http://localhost:5500/api/v1/auth/customer/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,6 +49,7 @@ export default function SignupPage() {
       if (res.ok) {
         const data = await res.json();
         console.log(data);
+        router.push("/customer/dashboard");
       } else {
         console.log("Customer cound'nt registered!");
         setError(true);
@@ -56,6 +59,10 @@ export default function SignupPage() {
       setError(true);
     }
   };
+
+  if (error) {
+    return <p className='text-2xl text-red-400 font-bold'>{error}</p>
+  }
 
   return (
     <section className="flex items-center justify-center h-screen">
