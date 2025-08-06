@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { saveToken } from "../../../utils/authToken";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,6 +34,9 @@ export default function LoginPage() {
       } else {
         const data = await res.json();
         console.log('Login successful:', data);
+
+        // SAVING TOKEN & ROLE INTO LOCALSTORAGE
+        saveToken(data?.token, data.user?.role)
 
         if (data?.user?.role === 'Customer') {
           router.push('/customer/dashboard');

@@ -16,6 +16,12 @@ export const register = async (req, res) => {
     return res.status(400).json({ message: 'All fields are required *' });
   }
 
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: 'Password must be at least 6 characters' });
+  }
+
   try {
     // NOW CHECK IF THE USER ALREADY AXISTS
     const existingUser = await User.findOne({
@@ -63,7 +69,7 @@ export const register = async (req, res) => {
 // @route POST /auth/register/seller
 // @access PRIVATE - ONLY FOR SELLER
 export const registerSeller = async (req, res) => {
-  const { businessName, email, password, confirmPassword, gstin } = req.body;
+  const { businessName, email, password, gstin } = req.body;
 
   if (
     isEmpty(businessName) ||
@@ -73,10 +79,6 @@ export const registerSeller = async (req, res) => {
     isEmpty(gstin)
   ) {
     return res.status(400).json({ error: 'All fields are required' });
-  }
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: 'Passwords do not match' });
   }
 
   if (password.length < 6) {
