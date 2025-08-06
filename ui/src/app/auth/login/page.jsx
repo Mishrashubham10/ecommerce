@@ -15,8 +15,6 @@ export default function LoginPage() {
     }));
   };
 
-  console.log('Yee got the user info:', formData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,7 +40,7 @@ export default function LoginPage() {
   return (
     <section className="flex h-screen items-center justify-center bg-[#F1F1F1] text-black">
       {/* ========== LEFT SECTION ========= */}
-      <div className="bg-blue-300 p-3 w-sm">
+      <div className="bg-blue-300 p-3 w-xs">
         <h1 className="text-3xl font-bold text-white">Login</h1>
         <p className="mt-3 text-lg font-bold text-[#aaa]">
           Get access to your orders,
