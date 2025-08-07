@@ -12,6 +12,7 @@ import productsRoute from './routes/product.routes.js';
 import auditsRoute from './routes/audits-routes.js';
 import analyticsRoute from './routes/analytic-routes.js';
 import ordersRoute from './routes/order.routes.js';
+import searchRoutes from "./routes/search-route.js";
 
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -27,14 +28,8 @@ app.use(cookieParse());
 app.use(express.static('public'));
 app.use(express.json({ limit: '10kb' }));
 
-// app.options(
-//   '*',
-//   cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//   })
-// );
-
+// SEARCH ROUTES
+app.use('/api/v1/search', searchRoutes)
 // AUTH ROUTES
 app.use('/api/v1/auth', authRoutes);
 // USER ROUTES
