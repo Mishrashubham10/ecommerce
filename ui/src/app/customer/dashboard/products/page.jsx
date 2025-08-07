@@ -27,14 +27,15 @@ export default function ProductsPage() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to fetch products');
         setErr(true);
+        throw new Error('Failed to fetch products');
       }
 
       const data = await res.json();
+      console.log(data.products, "Yee this is the product")
       setLoading(false);
       setErr(false);
-      setProducts(data);
+      setProducts(data.products);
     };
 
     fetchProducts();

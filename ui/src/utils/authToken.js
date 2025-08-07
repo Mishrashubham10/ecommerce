@@ -4,10 +4,13 @@ const ROLE_KEY = 'auth_role';
 export const saveToken = (token, role) => {
   localStorage.setItem(TOKEN_KEY, token);
   if (role) localStorage.setItem(ROLE_KEY, role);
-}
+};
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('your_token_key');
+  }
+  return null;
 };
 
 export const getRole = () => {
