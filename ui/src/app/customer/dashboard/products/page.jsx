@@ -4,7 +4,7 @@ import { getToken } from '../../../../utils/authToken';
 import { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-import ProductsGrid from '../_components/ProductsGrid';
+import ProductsGrid from '../../../_components/ProductsGrid';
 import NoProductFound from '../_components/NoProductFound';
 
 export default function ProductsPage() {

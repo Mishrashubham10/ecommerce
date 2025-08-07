@@ -2,11 +2,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function ProductsGrid({ products }) {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleProductClick = (id) => {
-        router.push(`/customer/dashboard/products/${id}`)
-    }
+  const handleProductClick = (id) => {
+    router.push(`/customer/dashboard/products/${id}`);
+  };
 
   return (
     <>
@@ -14,8 +14,9 @@ export default function ProductsGrid({ products }) {
         {/* =========== PRODUCT ============= */}
         {products.map((product) => (
           <div
-          key={product._id}
-            className="mt-4 bg-white overflow-hidden transition duration-300 ease-in-out hover:shadow-lg hover:scale-101 cursor-pointer" onClick={()=>handleProductClick(product._id)}
+            key={product._id}
+            className="mt-4 bg-white overflow-hidden transition duration-300 ease-in-out hover:shadow-lg hover:scale-101 cursor-pointer"
+            onClick={() => handleProductClick(product._id)}
           >
             <Image
               src={product?.images[0]}

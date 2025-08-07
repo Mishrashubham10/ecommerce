@@ -6,6 +6,7 @@ import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getToken, removeToken } from '../../utils/authToken';
+import GlobalSearch from './GlobalSearch';
 
 export default function Navbar() {
   const router = useRouter();
@@ -43,11 +44,12 @@ export default function Navbar() {
 
           {/* ============ GLOBAL SEARCH INPUT ============ */}
           <div className="flex items-center gap-2 bg-white px-3 h-[2.6rem] w-lg rounded">
-            <input
+            {/* <input
               type="text"
               placeholder="Search for products, brands and more"
               className="border-none outline-none w-full placeholder:text-[#6E6E6E] placeholder:text-sm text-black"
-            />
+            /> */}
+            <GlobalSearch />
             <Search className="text-blue-600 font-bold" />
           </div>
 

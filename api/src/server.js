@@ -12,7 +12,7 @@ import productsRoute from './routes/product.routes.js';
 import auditsRoute from './routes/audits-routes.js';
 import analyticsRoute from './routes/analytic-routes.js';
 import ordersRoute from './routes/order.routes.js';
-import searchRoutes from "./routes/search-route.js";
+import searchRoutes from './routes/search-route.js';
 
 const PORT = process.env.PORT || 5500;
 const app = express();
@@ -28,8 +28,6 @@ app.use(cookieParse());
 app.use(express.static('public'));
 app.use(express.json({ limit: '10kb' }));
 
-// SEARCH ROUTES
-app.use('/api/v1/search', searchRoutes)
 // AUTH ROUTES
 app.use('/api/v1/auth', authRoutes);
 // USER ROUTES
@@ -42,6 +40,8 @@ app.use('/api/audits', auditsRoute);
 app.use('/api/v1/analytics', analyticsRoute);
 // ORDER ROUTE
 app.use('/api/v1/orders', ordersRoute);
+// SEARCH ROUTES
+app.use('/api/v1/search', searchRoutes);
 
 connectDb().then(() => {
   app.listen(PORT, () => {
