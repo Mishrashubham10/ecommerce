@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    storage: [String],
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
