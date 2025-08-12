@@ -8,8 +8,6 @@ export default function GlobalSearch() {
   const [results, setResults] = useState({ products: [], categories: [] });
   const [showDropdown, setShowDropdown] = useState(false);
 
-  console.log("Yee got the input", input)
-
   const fetchResults = debounce(async (query) => {
     if (!query) {
       setResults({ products: [], categories: [] });

@@ -7,7 +7,11 @@ const nextConfig = {
       'www.lorempixel.com',
       'placeimg.com',
       'picsum.photos',
-      'example.com'
+      'example.com',
+      "images.samsung.com",
+      "www.apple.com",
+      "store.storeimages.cdn-apple.com",
+       "encrypted-tbn0.gstatic.com"
     ],
   },
 };

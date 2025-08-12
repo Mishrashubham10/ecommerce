@@ -10,12 +10,12 @@ export default function ProductsGrid({ products }) {
 
   return (
     <>
-      <section className="grid mt-3 grid-cols-1 py-4 gap-4 md:grid-cols-3 lg:grid-cols-5 bg-white">
+      <section className="grid border-1 border-gray-700 mt-3 grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5 bg-white">
         {/* =========== PRODUCT ============= */}
         {products.map((product) => (
           <div
             key={product._id}
-            className="mt-4 bg-white overflow-hidden transition duration-300 ease-in-out hover:shadow-lg hover:scale-101 cursor-pointer"
+            className="bg-white overflow-hidden transition duration-300 ease-in-out hover:shadow-lg hover:scale-101 cursor-pointer"
             onClick={() => handleProductClick(product._id)}
           >
             <Image
