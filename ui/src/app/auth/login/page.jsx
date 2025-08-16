@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { saveToken } from "../../../utils/authToken";
+import { saveToken } from '../../../utils/authToken';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function LoginPage() {
         console.log('Login successful:', data);
 
         // SAVING TOKEN & ROLE INTO LOCALSTORAGE
-        saveToken(data?.token, data.user?.role)
+        saveToken(data?.token, data.user?.role);
 
         if (data?.user?.role === 'Customer') {
           router.push('/customer/dashboard');
@@ -52,9 +53,9 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="flex h-screen items-center justify-center bg-[#F1F1F1] text-black">
+    <section className="flex items-center justify-center bg-[#F1F1F1] text-black h-[70vh]">
       {/* ========== LEFT SECTION ========= */}
-      <div className="bg-blue-300 p-3 w-xs">
+      {/* <div className="shadow-lg rounded-md bg-blue-300 p-3 w-xs h-[50vh]">
         <h1 className="text-3xl font-bold text-white">Login</h1>
         <p className="mt-3 text-lg font-bold text-[#aaa]">
           Get access to your orders,
@@ -62,12 +63,12 @@ export default function LoginPage() {
         <span className="text-lg font-bold text-[#aaa]">
           Wishlist and Recommendation
         </span>
-      </div>
+      </div> */}
       {/* RIGHT SECTION */}
-      <div className="shadow-lg rounded-md p-3 w-md">
+      <div className="shadow-lg rounded-lg p-3 w-md">
         <form onSubmit={handleSubmit}>
           {/* ====== EMAIL ======= */}
-          <div className="flex flex-col gap-1 p-4">
+          <div className="flex flex-col gap-1 p-2">
             <label htmlFor="email" className="text-sm">
               Email Address
             </label>
@@ -82,7 +83,7 @@ export default function LoginPage() {
             />
           </div>
           {/* ======= PASSWORD ======= */}
-          <div className="flex flex-col gap-1 p-4">
+          <div className="flex flex-col gap-1 p-2">
             <label htmlFor="password" className="text-sm">
               Password
             </label>
@@ -109,9 +110,17 @@ export default function LoginPage() {
                 Privacy Policy.
               </a>
             </p>
-            <button className="w-[100%] bg-[#FB641B] py-1.5 px-5 rounded-md shadow-md">
+            <button className="w-[100%] bg-[#FB641B] py-1.5 px-5 rounded-md shadow-md mt-1">
               Login
             </button>
+
+            {/* ========== EXISTING USER BUTTON ========== */}
+            <Link
+              href="signup"
+              className="py-2 w-full bg-white text-blue-500 font-bold text-sm shadow-xl rounded-md text-center mt-1"
+            >
+              Create an account? SignUp
+            </Link>
           </div>
         </form>
       </div>

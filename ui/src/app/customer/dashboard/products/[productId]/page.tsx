@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { getToken } from '../../../../../utils/authToken';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 
 export default function SingleProductPage() {
   const { productId } = useParams();
   const token = getToken();
 
-  console.log("Yee got the id", productId);
+  console.log('Yee got the id', productId);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,20 +19,23 @@ export default function SingleProductPage() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:5500/api/v1/products/${productId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `http://localhost:5500/api/v1/products/${productId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
         if (!res.ok) {
           throw new Error('Can not fetch single product!');
         }
 
         const data = await res.json();
-        console.log("Yee got the single product", data);
+        console.log('Yee got the single storage', data?.products?.storage[0]);
         setProduct(data);
         setErr(false);
       } catch (error) {
@@ -50,10 +54,25 @@ export default function SingleProductPage() {
   if (!product) return null;
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold">{product.name} Product Name</h1>
-      <p>{product.description}</p>
-      <p>Price: ₹{product.price}</p>
+    <div className="grid grid-cols-2 py-6 px-4 gap-16 text-black h-[70vh] items-center">
+      {/* IMAGE */}
+      <div className="relative h-[50%] w=[100%]">
+        <Image src={product.images[0]} fill alt='Product Image' className='object-cover' />
+      </div>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-xl font-bold">{product.name} Product Name</h1>
+        <p>{product.description}</p>
+        <p>Price: ₹{product.price}</p>
+        {product && (
+          <div className="">
+            {product.storage?.map(s => (
+              <div className="" key={s}>
+                {s}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

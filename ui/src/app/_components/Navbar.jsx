@@ -44,11 +44,6 @@ export default function Navbar() {
 
           {/* ============ GLOBAL SEARCH INPUT ============ */}
           <div className="flex items-center gap-2 bg-white px-3 h-[2.6rem] w-lg rounded">
-            {/* <input
-              type="text"
-              placeholder="Search for products, brands and more"
-              className="border-none outline-none w-full placeholder:text-[#6E6E6E] placeholder:text-sm text-black"
-            /> */}
             <GlobalSearch />
             <Search className="text-blue-600 font-bold" />
           </div>
@@ -84,7 +79,7 @@ export default function Navbar() {
             )}
           </li>
 
-          <li className="flex items-center cursor-pointer text-md font-bold">
+          <li className="flex items-center cursor-pointer text-md font-bold gap-1">
             <ShoppingCart className="size-4 mr-1" />
             Cart
           </li>

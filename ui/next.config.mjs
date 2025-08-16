@@ -11,7 +11,8 @@ const nextConfig = {
       "images.samsung.com",
       "www.apple.com",
       "store.storeimages.cdn-apple.com",
-       "encrypted-tbn0.gstatic.com"
+       "encrypted-tbn0.gstatic.com",
+       "insulins.in"
     ],
   },
 };

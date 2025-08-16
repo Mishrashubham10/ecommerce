@@ -65,18 +65,18 @@ export default function SignupPage() {
   }
 
   return (
-    <section className="flex items-center justify-center h-screen">
+    <section className="flex items-center justify-center h-[70vh]">
       {/* ============= LEFT SECTION ============= */}
-      <div className="bg-blue-300 shadow-lg p-4 h-[440px] w-xs">
+      {/* <div className="bg-blue-300 shadow-lg p-4 h-[440px] w-xs">
         <h1 className="text-3xl font-bold text-white">
           Looks like you're new here!
         </h1>
         <p className="mt-3 text-lg font-bold text-[#6E6E6E]">
           Sign up with your personal information to get started
         </p>
-      </div>
+      </div> */}
       {/* ============= RIGHT SECTION ============= */}
-      <div className="bg-white shadow-lg p-4 h-auto rounded-r">
+      <div className="bg-white shadow-lg p-4 h-auto rounded-md">
         {/* =========== FORM SECTION =========== */}
         <form className="flex flex-col gap-2 text-black" onSubmit={handleSubmit}>
           {/* ========= FIELDS SECTION ======== */}
