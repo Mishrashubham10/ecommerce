@@ -4,6 +4,7 @@ import './globals.css';
 // COMPONENTS
 import Navbar from './_components/Navbar';
 import Footer from './_components/Footer';
+import ToastProvider from "./_components/ToastProvider";
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,7 +28,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <main className='bg-white'>{children}</main>
+        <main className='bg-white'>
+          {children}
+        <ToastProvider />
+        </main>
         <Footer />
       </body>
     </html>

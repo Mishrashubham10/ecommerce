@@ -8,7 +8,7 @@ export const saveToken = (token, role) => {
 
 export const getToken = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('your_token_key');
+    return localStorage.getItem(TOKEN_KEY);
   }
   return null;
 };

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { Search } from 'lucide-react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
@@ -14,7 +14,7 @@ export default function Navbar() {
   const token = getToken();
 
   const isLoggedInUser = typeof window !== 'undefined' ? token : null;
-  console.log(token);
+  console.log(isLoggedInUser, "Yee got the loggedInUser");
 
   // LOGGING OUT USER
   const handleLogoutClick = async () => {
@@ -26,7 +26,7 @@ export default function Navbar() {
     });
 
     if (res.ok) {
-      console.log("User logged out successfully!");
+      console.log('User logged out successfully!');
       removeToken();
       router.push('/login');
     }
@@ -48,20 +48,21 @@ export default function Navbar() {
             <Search className="text-blue-600 font-bold" />
           </div>
 
-          <Link href="/auth/login">
-            {isLoggedInUser ? (
-              <button
-                className="text-md py-1 bg-white h-auto px-9 cursor-pointer text-blue-500 font-bold"
-                onClick={handleLogoutClick}
-              >
-                Logout
-              </button>
-            ) : (
-              <button className="text-md py-1 bg-white h-auto px-9 cursor-pointer text-blue-500 font-bold">
-                Login
-              </button>
-            )}
-          </Link>
+          {isLoggedInUser ? (
+            <button
+              className="text-md py-1 bg-white h-auto px-9 cursor-pointer text-blue-500 font-bold"
+              onClick={handleLogoutClick}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="text-md py-1 bg-white h-auto px-9 cursor-pointer text-blue-500 font-bold"
+            >
+              Login
+            </Link>
+          )}
         </section>
 
         {/* ======= SECOND SECTION ========= */}
