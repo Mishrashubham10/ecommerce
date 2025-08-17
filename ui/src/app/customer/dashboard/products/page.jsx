@@ -7,7 +7,7 @@ import NoProductFound from '../_components/NoProductFound';
 import { useRouter } from 'next/navigation';
 
 export default function ProductsPage() {
-  const router = useRouter()
+  const router = useRouter();
   const token = getToken();
 
   const [products, setProducts] = useState([]);
@@ -104,7 +104,7 @@ export default function ProductsPage() {
             >
               Prev
             </button>
-            <span className='text-gray-500'>
+            <span className="text-gray-500">
               Page {page} of {totalPages}
             </span>
             <button
