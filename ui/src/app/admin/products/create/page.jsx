@@ -212,13 +212,6 @@ export default function CreateProduct() {
         >
           {loading ? 'Creating...' : 'Create Product'}
         </button>
-        <button
-          type="button"
-          onClick={() => toast.success('Hello from toast!')}
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Test Toast
-        </button>
       </div>
     </form>
   );

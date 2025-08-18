@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { saveToken } from '../../../utils/authToken';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,9 +33,11 @@ export default function LoginPage() {
       if (!res.ok) {
         const errorData = await res.json();
         console.error('Login failed:', errorData.message || 'Unknown error');
+        toast.error("Something went wrong!");
       } else {
         const data = await res.json();
         console.log('Login successful:', data);
+        toast.success("User logged in successfully");
 
         // SAVING TOKEN & ROLE INTO LOCALSTORAGE
         saveToken(data?.token, data.user?.role);

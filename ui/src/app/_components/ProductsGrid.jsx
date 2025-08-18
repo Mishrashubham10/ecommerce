@@ -19,7 +19,7 @@ export default function ProductsGrid({ products }) {
             onClick={() => handleProductClick(product._id)}
           >
             <Image
-              src={product?.images[0]}
+              src={product?.images[0] || ""}
               alt="Product Image"
               width={400}
               height={200}

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getToken, removeToken } from '../../utils/authToken';
 import GlobalSearch from './GlobalSearch';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,18 +19,24 @@ export default function Navbar() {
 
   // LOGGING OUT USER
   const handleLogoutClick = async () => {
-    const res = await fetch('http://localhost:5500/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (res.ok) {
-      console.log('User logged out successfully!');
-      removeToken();
-      router.push('/login');
-    }
+    // try {
+    //   const res = await fetch('http://localhost:5500/auth/logout', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   });
+  
+    //   if (res.ok) {
+    //     console.log('User logged out successfully!');
+    //     removeToken();
+    //     router.push('/login');
+    //     toast.success("User logged out successfully!");
+    //   }
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    // }
+    removeToken();
   };
 
   return (

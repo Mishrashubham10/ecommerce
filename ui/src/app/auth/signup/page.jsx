@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function SignupPage() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -38,21 +39,26 @@ export default function SignupPage() {
     }
 
     try {
-      const res = await fetch('http://localhost:5500/api/v1/auth/customer/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        'http://localhost:5500/api/v1/auth/customer/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (res.ok) {
         const data = await res.json();
         console.log(data);
-        router.push("/customer/dashboard");
+        router.push('/customer/dashboard');
+        toast.success('User registered successfully');
       } else {
         console.log("Customer cound'nt registered!");
         setError(true);
+        toast.error("Customer cound'nt registered!");
       }
     } catch (err) {
       console.log('Error while registering user', err.message);
@@ -61,7 +67,7 @@ export default function SignupPage() {
   };
 
   if (error) {
-    return <p className='text-2xl text-red-400 font-bold'>{error}</p>
+    return <p className="text-2xl text-red-400 font-bold">{error}</p>;
   }
 
   return (
@@ -78,7 +84,10 @@ export default function SignupPage() {
       {/* ============= RIGHT SECTION ============= */}
       <div className="bg-white shadow-lg p-4 h-auto rounded-md">
         {/* =========== FORM SECTION =========== */}
-        <form className="flex flex-col gap-2 text-black" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col gap-2 text-black"
+          onSubmit={handleSubmit}
+        >
           {/* ========= FIELDS SECTION ======== */}
           <div className="flex flex-col gap-[2px]">
             <label className="text-md text-[#6E6E6E]" htmlFor="email">
