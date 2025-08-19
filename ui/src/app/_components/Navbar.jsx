@@ -4,39 +4,36 @@ import { Search } from 'lucide-react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { getToken, removeToken } from '../../utils/authToken';
 import GlobalSearch from './GlobalSearch';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const router = useRouter();
   const isOpen = false;
   const token = getToken();
 
-  const isLoggedInUser = typeof window !== 'undefined' ? token : null;
-  console.log(isLoggedInUser, "Yee got the loggedInUser");
+  console.log(token, 'Yee got the loggedInUser');
 
   // LOGGING OUT USER
   const handleLogoutClick = async () => {
-    // try {
-    //   const res = await fetch('http://localhost:5500/auth/logout', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-  
-    //   if (res.ok) {
-    //     console.log('User logged out successfully!');
-    //     removeToken();
-    //     router.push('/login');
-    //     toast.success("User logged out successfully!");
-    //   }
-    // } catch (error) {
-    //   toast.error("Something went wrong");
-    // }
-    removeToken();
+    try {
+      const res = await fetch('http://localhost:5500/api/v1/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.ok) {
+        removeToken();
+        toast.success('User logged out successfully!');
+        router.push('/auth/login');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
   };
 
   return (
@@ -55,7 +52,7 @@ export default function Navbar() {
             <Search className="text-blue-600 font-bold" />
           </div>
 
-          {isLoggedInUser ? (
+          {token ? (
             <button
               className="text-md py-1 bg-white h-auto px-9 cursor-pointer text-blue-500 font-bold"
               onClick={handleLogoutClick}

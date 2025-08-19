@@ -2,7 +2,7 @@ import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const isEmpty = (value) => !value || value.trim() === "";
+const isEmpty = (value) => !value || value.trim() === '';
 
 // @desc Register
 // @route POST /auth/register
@@ -151,10 +151,20 @@ export const login = async (req, res) => {
       { expiresIn: '30d' }
     );
 
+    // ✅ Save refresh token cookie
     res.cookie('jwt', refreshToken, {
-      // httpOnly: true,
-      // secure: true,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // ✅ Save access token cookie (important for middleware)
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({

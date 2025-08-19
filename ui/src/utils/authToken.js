@@ -1,23 +1,19 @@
-const TOKEN_KEY = 'auth_token';
-const ROLE_KEY = 'auth_role';
+import Cookies from 'js-cookie';
 
-export const saveToken = (token, role) => {
-  localStorage.setItem(TOKEN_KEY, token);
-  if (role) localStorage.setItem(ROLE_KEY, role);
+const TOKEN_KEY = 'auth_token';
+
+export const saveToken = (token) => {
+  Cookies.set(TOKEN_KEY, token, {
+    expires: 7,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Strict',
+  });
 };
 
 export const getToken = () => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(TOKEN_KEY);
-  }
-  return null;
-};
-
-export const getRole = () => {
-  return localStorage.getItem(ROLE_KEY);
+  return Cookies.get(TOKEN_KEY);
 };
 
 export const removeToken = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(ROLE_KEY);
+  Cookies.remove(TOKEN_KEY);
 };

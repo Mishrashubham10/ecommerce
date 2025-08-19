@@ -40,7 +40,7 @@ export default function LoginPage() {
         toast.success("User logged in successfully");
 
         // SAVING TOKEN & ROLE INTO LOCALSTORAGE
-        saveToken(data?.token, data.user?.role);
+        saveToken(data?.token);
 
         if (data?.user?.role === 'Customer') {
           router.push('/customer/dashboard');
