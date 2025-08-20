@@ -20,7 +20,7 @@ const app = express();
 // MIDDLEWARES
 app.use(
   cors({
-    origin: 'http://localhost:3000', // frontend URL
+    origin: 'https://ecommerce-two-jade-45.vercel.app/', // frontend URL
     credentials: true,
   })
 );

@@ -62,8 +62,6 @@ export default function CreateProduct() {
     }
   };
 
-  console.log(formData, 'Yee got the formData');
-
   return (
     <form
       className="flex flex-col gap-2 text-black py-8 px-16"

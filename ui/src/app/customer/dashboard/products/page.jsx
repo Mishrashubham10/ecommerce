@@ -36,7 +36,6 @@ export default function ProductsPage() {
       if (!res.ok) throw new Error('Failed to fetch products');
 
       const data = await res.json();
-      console.log('Data with filteration and pagination', data);
       setProducts(data?.products);
       setTotalPages(data?.pages || 1);
       setErr(false);

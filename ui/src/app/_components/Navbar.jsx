@@ -14,8 +14,6 @@ export default function Navbar() {
   const isOpen = false;
   const token = getToken();
 
-  console.log(token, 'Yee got the loggedInUser');
-
   // LOGGING OUT USER
   const handleLogoutClick = async () => {
     try {

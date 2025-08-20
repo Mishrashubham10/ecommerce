@@ -9,8 +9,6 @@ export default function SingleProductPage() {
   const { productId } = useParams();
   const token = getToken();
 
-  console.log('Yee got the id', productId);
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
@@ -35,7 +33,6 @@ export default function SingleProductPage() {
         }
 
         const data = await res.json();
-        console.log('Yee got the single storage', data?.products?.storage[0]);
         setProduct(data);
         setErr(false);
       } catch (error) {
@@ -47,7 +44,7 @@ export default function SingleProductPage() {
     };
 
     fetchProduct();
-  }, []);
+  }, [productId, token]);
 
   if (loading) return <p>Loading...</p>;
   if (err) return <p>Failed to load product.</p>;

@@ -59,9 +59,6 @@ export default function CustomerDashboard() {
     setPage((prev) => Math.min(prev + 1, totatPages));
   }
 
-  console.log(page, totatPages, 'Yee got the pages');
-  console.log('Yee got the products', products);
-
   if (loading) {
     return <p>Loading....</p>;
   }

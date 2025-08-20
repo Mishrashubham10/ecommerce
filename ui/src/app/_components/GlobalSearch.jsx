@@ -57,8 +57,6 @@ export default function GlobalSearch() {
     }
   };
 
-  console.log(results.categories, "From global search!");
-
   return (
     <div className="relative w-full max-w-lg mx-auto">
       <input
