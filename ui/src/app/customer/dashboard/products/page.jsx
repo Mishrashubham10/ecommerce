@@ -23,7 +23,7 @@ export default function ProductsPage() {
     try {
       setLoading(true);
       const res = await fetch(
-        `http://localhost:5500/api/v1/products?page=${page}&limit=${limit}`,
+        `${process.env.NEXT_PUBLIC_API_KEY}/products?page=${page}&limit=${limit}`,
         {
           method: 'GET',
           headers: {

@@ -18,7 +18,7 @@ export default function SingleProductPage() {
       try {
         setLoading(true);
         const res = await fetch(
-          `http://localhost:5500/api/v1/products/${productId}`,
+          `${process.env.NEXT_PUBLIC_API_KEY}/products/${productId}`,
           {
             method: 'GET',
             headers: {

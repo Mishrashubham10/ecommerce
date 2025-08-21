@@ -17,7 +17,7 @@ export default function Navbar() {
   // LOGGING OUT USER
   const handleLogoutClick = async () => {
     try {
-      const res = await fetch('http://localhost:5500/api/v1/auth/logout', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/auth/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

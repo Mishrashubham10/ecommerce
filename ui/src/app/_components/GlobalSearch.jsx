@@ -26,7 +26,7 @@ export default function GlobalSearch() {
 
     try {
       const res = await fetch(
-        `http://localhost:5500/api/v1/search?query=${query}`,
+        `${process.env.NEXT_PUBLIC_API_KEY}/search?query=${query}`,
         {
           method: 'GET',
           headers: {

@@ -34,7 +34,7 @@ export default function CreateProduct() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5500/api/v1/products', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/products`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
