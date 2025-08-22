@@ -12,7 +12,8 @@ const nextConfig = {
       "www.apple.com",
       "store.storeimages.cdn-apple.com",
        "encrypted-tbn0.gstatic.com",
-       "insulins.in"
+       "insulins.in",
+       "images.fineartamerica.com"
     ],
   },
 };

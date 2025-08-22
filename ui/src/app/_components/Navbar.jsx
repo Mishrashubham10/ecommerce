@@ -35,7 +35,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full h-[4rem] bg-blue-600">
+    <nav className="w-[100%] h-[4rem] bg-blue-600">
       <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
         {/* ======= FIRST SECTION ========= */}
         <section className="flex items-center gap-4">
